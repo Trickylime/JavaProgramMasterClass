@@ -8,6 +8,10 @@ public class BookingAgent {
         test.reserveSeat('A', 1);
         test.reserveSeat('A', 111);
         test.printSeatMap();
+        test.reserveMultiSeats('B', 'C', 1, 10);
+        test.reserveMultiSeats('C', 'D', 1, 10);
+        test.printSeatMap();
+        test.reserveMultiSeats('G', 'H', 1, 112);
 
     }
 

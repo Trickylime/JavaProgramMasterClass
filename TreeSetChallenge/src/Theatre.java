@@ -33,23 +33,16 @@ public class Theatre {
 
         @Override
         public String toString() {
-            String reservedFlag = reserved ? "(Reserved)" : ""; // Include "R" if reserved is true, otherwise an empty string
+            String reservedFlag = reserved ? "(*)" : "";
             return String.format("%c%03d%s", row, seatNumber, reservedFlag);
         }
 
     }
 
-    private String name;
-    private int numberOfRows;
-    private int numberOfSeatsInRow;
-    private int numberOfSeatsTotal;
     private TreeSet<Seat> seats;
 
     public Theatre(String name, int numberOfRows, int numberOfSeatsInRow) {
-        this.name = name;
-        this.numberOfRows = numberOfRows;
-        this.numberOfSeatsInRow = numberOfSeatsInRow;
-        this.numberOfSeatsTotal = numberOfSeatsInRow * numberOfRows;
+        int numberOfSeatsTotal = numberOfSeatsInRow * numberOfRows;
 
         Comparator<Seat> mySort = Comparator
                 .comparing(Seat::getRow)
@@ -65,23 +58,60 @@ public class Theatre {
 
     public void reserveSeat(char row, int seatNum){
 
-        Seat seat = seats.floor(new Seat(row, seatNum));
-        if (seat == null) {
+        if(!areSeatsValid(row, seatNum)) return;
+
+        Seat seatBooking = seats.floor(new Seat(row, seatNum));
+
+        if (seatBooking == null) {
             System.out.println("Seat does not exist");
             return;
         }
-        if(!seat.reserved){
-            System.out.println("Your seat " + seat + " has been successfully reserved");
-            seat.setReserved(true);
-        } else {
-            System.out.println("Your seat " + seat + " is already reserved");
-        }
+        if(!seatBooking.reserved){
+            System.out.println("Your seat " + seatBooking + " has been successfully reserved");
+            seatBooking.setReserved(true);
+        } else System.out.println("Your seat " + seatBooking + " is already reserved");
     }
 
     public void reserveMultiSeats(char rowRangeStart, char rowRangeEnd, int seatRangeStart, int seatRangeEnd){
 
-        List<Seat> seats = new ArrayList<>();
-        int seatsRequestTotal = (rowRangeEnd - rowRangeStart) * (seatRangeEnd - seatRangeStart);
+        if(!areSeatsValid(rowRangeStart, seatRangeStart) || !areSeatsValid(rowRangeEnd, seatRangeEnd)) return;
+
+        List<Seat> seatBookingList = new ArrayList<>();
+        boolean cancelBooking = false;
+
+        for (char i = rowRangeStart; i <= rowRangeEnd; i++) {
+            for (int j = seatRangeStart; j <= seatRangeEnd; j++){
+                Seat seatBooking = seats.floor(new Seat(i, j));
+
+                if (seatBooking == null) {
+                    System.out.println("Seat does not exist");
+                    return;
+                }
+                if(!seatBooking.reserved) seatBookingList.add(seatBooking);
+                else {
+                    System.out.println("Your seat " + seatBooking + " is already reserved");
+                    cancelBooking = true;
+                    break;
+                }
+            }
+        }
+
+        if (cancelBooking){
+            System.out.println("Your booking was unsuccessful, please try another row");
+        } else {
+            System.out.println("Your booking was successful, you have booked seats " + seatRangeStart + " to " + seatRangeEnd
+            + " in rows " + rowRangeStart + " to " + rowRangeEnd);
+            seatBookingList.forEach(seat -> seat.setReserved(true));
+        }
+    }
+
+    public boolean areSeatsValid(char row, int seatNum) {
+        if (seats.contains(new Seat(row, seatNum))) {
+            return true;
+        } else {
+            System.out.println("Seats are invalid");
+            return false;
+        }
     }
 
     public void printSeatMap() {
