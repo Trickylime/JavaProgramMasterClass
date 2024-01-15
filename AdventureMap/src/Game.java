@@ -18,8 +18,9 @@ public class Game {
         while (true) { // Continue the game until the player decides to quit
             displayCurrentLocation();
             displayOptions();
+            System.out.println("Select Your Compass Direction (Q to quit)");
 
-            String userInput = scanner.nextLine().toUpperCase(); // Convert input to uppercase for case-insensitivity
+            String userInput = scanner.nextLine().toUpperCase();
 
             if (userInput.equals("Q")) {
                 System.out.println("Thanks for playing. Goodbye!");
@@ -43,20 +44,11 @@ public class Game {
     }
 
     private void movePlayer(String direction) {
-        HashMap<String, String> nextPlaces = gameMap.getNextPlaces();
-        String nextLocation = nextPlaces.get(currentPlayerLocation.getDescription());
+        HashMap<String, String> nextLocations = currentPlayerLocation.getNextLocations();
 
-        if (nextLocation != null && nextLocation.contains(direction)) {
-            // Update the player's current location based on the chosen direction
-            String[] options = nextLocation.split(", ");
-            for (String option : options) {
-                if (option.startsWith(direction)) {
-                    String[] parts = option.split(": ");
-                    String newLocation = parts[1];
-                    currentPlayerLocation = gameMap.getLocations().get(newLocation);
-                    break;
-                }
-            }
+        if (nextLocations.containsKey(direction.toUpperCase())) {
+            String newLocation = nextLocations.get(direction.toUpperCase());
+            currentPlayerLocation = gameMap.getLocations().get(newLocation);
         } else {
             System.out.println("Invalid direction. Please choose a valid option.");
         }

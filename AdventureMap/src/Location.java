@@ -2,20 +2,22 @@ import java.util.HashMap;
 
 public class Location {
     private String description;
-    private HashMap<String, String> nextPlaces;
+    private HashMap<String, String> nextLocations;
 
     public Location(String description) {
         this.description = description;
-        this.nextPlaces = new HashMap<>();
+        this.nextLocations = new HashMap<>();
     }
 
     public String getDescription() {
         return description;
     }
 
-    public HashMap<String, String> getNextPlaces() {
-        return nextPlaces;
+    public HashMap<String, String> getNextLocations() {
+        return nextLocations;
     }
 
-    // Additional methods if needed
+    public void addNextLocation(String direction, String location) {
+        nextLocations.put(direction.toUpperCase(), location);
+    }
 }
