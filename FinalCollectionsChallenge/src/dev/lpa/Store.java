@@ -1,15 +1,16 @@
 package dev.lpa;
 
 import java.util.HashSet;
+import java.util.List;
 
 public class Store {
 
     String storeName;
-    private HashSet<InventoryItem> inventory;
+    private List<Product> inventory;
     private HashSet<Cart> carts;
-    private HashSet<Product> aisleInventory;
+    private HashSet<InventoryItem> aisleInventory;
 
-    public Store(String storeName, HashSet<InventoryItem> inventory, HashSet<Cart> carts, HashSet<Product> aisleInventory) {
+    public Store(String storeName, List<Product> inventory, HashSet<Cart> carts, HashSet<InventoryItem> aisleInventory) {
         this.storeName = storeName;
         this.inventory = inventory;
         this.carts = carts;
