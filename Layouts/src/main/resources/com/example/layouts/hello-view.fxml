@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<HBox alignment="BOTTOM_RIGHT" spacing="10.0" xmlns:fx="http://javafx.com/fxml"
-        fx:controller="com.example.layouts.HelloController"
-        style="-fx-border-color: red; -fx-border-width: 3; -fx-border-style: dashed">
 
-    <padding>
-        <Insets bottom="10" right="10"/>
-    </padding>
-    <Button text="Okay" prefWidth="90"/>
-    <Button text="Cancel" prefWidth="90"/>
-    <Button text="Help" prefWidth="90"/>
-</HBox>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Label?>
+<BorderPane fx:controller="com.example.layouts.HelloController"
+            xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <Label text="This label is in the top position" alignment="center"
+               BorderPane.alignment="CENTER"
+               style="-fx-border-color: blue; -fx-border-width: 3; -fx-border-style: dashed"/>
+    </top>
+    <bottom>
+        <HBox spacing="10" alignment="BOTTOM_RIGHT">
+            <padding>
+                <Insets bottom="10" right="10"/>
+            </padding>
+            <Button text="Okay" prefWidth="90"/>
+            <Button text="Cancel" prefWidth="90"/>
+            <Button text="Help" prefWidth="90"/>
+        </HBox>
+    </bottom>
+</BorderPane>
 
-<?import javafx.scene.layout.ColumnConstraints?>
+
+<!--<?import javafx.scene.layout.ColumnConstraints?>-->
+<!--<?import javafx.scene.layout.GridPane?>-->
+<!--<?import javafx.scene.control.Label?>-->
+<!--<?import javafx.scene.layout.VBox?>-->
 <!--<GridPane alignment="TOP_CENTER" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml"-->
 <!--          fx:controller="com.example.layouts.HelloController"-->
 <!--          gridLinesVisible="true">-->
