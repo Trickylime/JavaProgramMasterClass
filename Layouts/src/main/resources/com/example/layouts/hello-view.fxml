@@ -47,7 +47,7 @@
 <!--        <Label text ="This label is in the left popsition" alignment="center"/>-->
 <!--    </left>-->
 <!--    <right>-->
-<!--        <Label text="This label in in the right position"/>-->
+<!--        <Label text="This label is in the right position"/>-->
 <!--    </right>-->
 <!--    <bottom>-->
 <!--        <HBox spacing="10" alignment="BOTTOM_RIGHT">-->
