@@ -3,3 +3,6 @@ Doctor's Appointment	See Dr. Smith at 123 main street	03-12-2024
 Finish Design proposal for client	I promised Mike I'd email website mock ups	25-11-2024
 Pick up Doug at the train station	Doug's arriving on November 1st on 5pm train	01-11-2024
 Pick up washing	Clothes should be ready by Wednesday	06-11-2024
+My new Todo Item	This is a new todo item	09-11-2024
+Jack item	This is a test	08-11-2024
+Yet another todo item	WOW	08-11-2024
