@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.javamasterclass.scenebuilder/com.javamasterclass.scenebuilder.HelloApplication
+                                com.javamasterclass.scenebuilder/com.javamasterclass.scenebuilder.Main
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
