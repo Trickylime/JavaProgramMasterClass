@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            fx:controller="com.javamasterclass.mycontacts.Controller"
+            stylesheets="@style.css">
+
+    <top>
+        <VBox>
+            <MenuBar>
+                <Menu text="Contacts">
+                    <items>
+                        <MenuItem text="New Contact.."/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Exit" onAction="#handleExit"/>
+                    </items>
+                </Menu>
+            </MenuBar>
+        </VBox>
+    </top>
+    <center>
+        <TableView fx:id="tableView">
+            <columns>
+                <TableColumn fx:id="firstNameColumn" text="First Name" />
+                <TableColumn fx:id="lastNameColumn" text="Last Name" />
+                <TableColumn fx:id="phoneNumberColumn" text="Phone Number" />
+                <TableColumn fx:id="notesColumn" text="Notes" />
+            </columns>
+        </TableView>
+    </center>
+
+</BorderPane>
