@@ -22,7 +22,7 @@
         </VBox>
     </top>
     <center>
-        <TableView fx:id="tableView">
+        <TableView fx:id="contactsTableView">
             <columns>
                 <TableColumn fx:id="firstNameColumn" text="First Name" />
                 <TableColumn fx:id="lastNameColumn" text="Last Name" />

@@ -1,5 +1,6 @@
 package com.javamasterclass.mycontacts;
 
+import com.javamasterclass.mycontacts.datamodel.ContactData;
 import com.javamasterclass.mycontacts.datamodel.ContactItem;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -20,8 +21,13 @@ public class Controller {
     private TableColumn<ContactItem, String> notesColumn;
 
     @FXML
+    private TableView<ContactItem> contactsTableView;
+
+    @FXML
     public void initialize() {
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        contactsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        contactsTableView.setItems(ContactData.getInstance().getContacts());
     }
 
 

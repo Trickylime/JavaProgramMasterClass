@@ -1,18 +1,10 @@
 package com.javamasterclass.mycontacts.datamodel;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.xml.stream.XMLEventFactory;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Characters;
-import javax.xml.stream.events.EndElement;
-import javax.xml.stream.events.StartDocument;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
+import javax.xml.stream.*;
+import javax.xml.stream.events.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,6 +13,7 @@ import java.io.InputStream;
 
 public class ContactData {
 
+    private static ContactData instance = new ContactData();
     private static final String CONTACTS_FILE = "contacts.xml";
 
     private static final String CONTACT = "contact";
@@ -29,15 +22,38 @@ public class ContactData {
     private static final String PHONE_NUMBER = "phone_number";
     private static final String NOTES = "notes";
 
-    private ObservableList<ContactItem> contacts;
+    private ObservableList<ContactItem> contacts = FXCollections.observableArrayList();
+
+
+    public static ContactData getInstance() {
+        return instance;
+    }
 
     public ContactData() {
         // *** initialize the contacts list here ***
+
+        this.contacts.add(new ContactItem("Homer", "Simpson", "12345678910", "DOH!"));
+        this.contacts.add(new ContactItem("Marge", "Simpon", "01987654321", "Hmmmm"));
+        this.contacts.add(new ContactItem("Moe", "Szyslak", "(800) 555-0000", "Prank Calls Only"));
+        this.contacts.add(new ContactItem("Hugo", "Reyes", "4815162342", "Luckiest guy alive"));
+
+        System.out.println(contacts);
     }
 
-    // *** Add methods to add/delete/access contacts here ***
+    public ObservableList<ContactItem> getContacts() {
+        return contacts;
+    }
+
+    public void addContact(ContactItem contact) {
+        contacts.add(contact);
+    }
+
+    public void deleteContact(ContactItem contact) {
+        contacts.remove(contact);
+    }
 
     public void loadContacts() {
+
         try {
             // First, create a new XMLInputFactory
             XMLInputFactory inputFactory = XMLInputFactory.newInstance();

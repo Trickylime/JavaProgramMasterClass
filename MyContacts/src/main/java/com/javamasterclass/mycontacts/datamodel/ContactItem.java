@@ -10,6 +10,13 @@ public class ContactItem {
     public ContactItem() {
     }
 
+    public ContactItem(String firstName, String lastName, String phoneNumber, String notes) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.notes = notes;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -40,5 +47,15 @@ public class ContactItem {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public String toString() {
+        return "ContactItem{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", notes='" + notes + '\'' +
+                '}';
     }
 }
