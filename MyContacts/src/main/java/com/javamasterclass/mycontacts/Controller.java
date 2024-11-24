@@ -4,9 +4,11 @@ import com.javamasterclass.mycontacts.datamodel.ContactData;
 import com.javamasterclass.mycontacts.datamodel.ContactItem;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseEvent;
 
 public class Controller {
     @FXML
@@ -27,7 +29,22 @@ public class Controller {
     public void initialize() {
         contactsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        contactsTableView.setItems(ContactData.getInstance().getContacts());
+        var data = ContactData.getInstance().getContacts();
+
+        contactsTableView.setItems(data);
+
+        EventHandler<? super MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                System.out.println("Selected: " + contactsTableView.getSelectionModel().getSelectedItem());
+            }
+        };
+        contactsTableView.setOnMouseClicked(eventHandler);
+
+
+
+        if(true)
+            return;
     }
 
 

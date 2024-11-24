@@ -2,6 +2,7 @@ package com.javamasterclass.mycontacts.datamodel;
 
 public class ContactItem {
 
+
     private String firstName;
     private String lastName;
     private String phoneNumber;
