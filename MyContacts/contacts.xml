@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <contacts>
 <contact>
-	<first_name>Dean</first_name>
-	<last_name>G</last_name>
-	<phone_number>0123456789</phone_number>
-	<notes>Goodyear</notes>
-</contact>
-<contact>
 	<first_name>Homer</first_name>
 	<last_name>Simpson</last_name>
 	<phone_number>12345678910</phone_number>
@@ -37,9 +31,9 @@
 	<notes>Prank Calls Only</notes>
 </contact>
 <contact>
-	<first_name></first_name>
-	<last_name></last_name>
-	<phone_number></phone_number>
-	<notes></notes>
+	<first_name>John</first_name>
+	<last_name>Smith</last_name>
+	<phone_number>Yes</phone_number>
+	<notes>Yes</notes>
 </contact>
 </contacts>
