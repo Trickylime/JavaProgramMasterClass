@@ -31,13 +31,10 @@ public class ContactData {
 
     public ContactData() {
         // *** initialize the contacts list here ***
-
-        this.contacts.add(new ContactItem("Homer", "Simpson", "12345678910", "DOH!"));
-        this.contacts.add(new ContactItem("Marge", "Simpon", "01987654321", "Hmmmm"));
-        this.contacts.add(new ContactItem("Moe", "Szyslak", "(800) 555-0000", "Prank Calls Only"));
-        this.contacts.add(new ContactItem("Hugo", "Reyes", "4815162342", "Luckiest guy alive"));
-
-        System.out.println(contacts);
+//        this.contacts.add(new ContactItem("Homer", "Simpson", "12345678910", "DOH!"));
+//        this.contacts.add(new ContactItem("Marge", "Simpon", "01987654321", "Hmmmm"));
+//        this.contacts.add(new ContactItem("Moe", "Szyslak", "(800) 555-0000", "Prank Calls Only"));
+//        this.contacts.add(new ContactItem("Hugo", "Reyes", "4815162342", "Luckiest guy alive"));
     }
 
     public ObservableList<ContactItem> getContacts() {

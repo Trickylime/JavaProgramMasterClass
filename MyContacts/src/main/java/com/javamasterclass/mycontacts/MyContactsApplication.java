@@ -1,5 +1,6 @@
 package com.javamasterclass.mycontacts;
 
+import com.javamasterclass.mycontacts.datamodel.ContactData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,5 +20,15 @@ public class MyContactsApplication extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        ContactData.getInstance().saveContacts();
+    }
+
+    @Override
+    public void init() throws Exception {
+        ContactData.getInstance().loadContacts();
     }
 }

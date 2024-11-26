@@ -26,6 +26,5 @@ public class DialogController {
         TodoItem newItem = (new TodoItem(shortDescription, details, deadlineValue));
         TodoData.getInstance().addTodoItem(newItem);
         return newItem;
-
     }
 }

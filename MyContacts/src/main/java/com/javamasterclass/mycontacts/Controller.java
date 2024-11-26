@@ -4,13 +4,20 @@ import com.javamasterclass.mycontacts.datamodel.ContactData;
 import com.javamasterclass.mycontacts.datamodel.ContactItem;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+
+import java.io.IOException;
+import java.util.Optional;
 
 public class Controller {
+    @FXML
+    public BorderPane mainBorderPane;
     @FXML
     private TableView<ContactItem> tableView;
     @FXML
@@ -28,28 +35,43 @@ public class Controller {
     @FXML
     public void initialize() {
         contactsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-        var data = ContactData.getInstance().getContacts();
-
-        contactsTableView.setItems(data);
-
-        EventHandler<? super MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                System.out.println("Selected: " + contactsTableView.getSelectionModel().getSelectedItem());
-            }
-        };
-        contactsTableView.setOnMouseClicked(eventHandler);
-
-
-
-        if(true)
-            return;
+        setContacts();
     }
 
+    public void setContacts() {
+        contactsTableView.setItems(ContactData.getInstance().getContacts());
+    }
+
+    @FXML
+    public void showNewItemDialog(ActionEvent actionEvent) {
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        dialog.setTitle("Add New Contact");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("contactItemDialog.fxml"));
+
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException e) {
+            System.out.println("Couldn't load the dialog");
+            e.printStackTrace();
+            return;
+        }
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            DialogController controller = fxmlLoader.getController();
+            ContactItem newItem = controller.processResults();
+            contactsTableView.getSelectionModel().select(newItem);
+        }
+    }
 
     @FXML
     public void handleExit(ActionEvent actionEvent) {
         Platform.exit();
     }
+
+
 }
