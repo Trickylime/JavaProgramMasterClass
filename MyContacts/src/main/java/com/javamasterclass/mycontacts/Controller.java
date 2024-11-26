@@ -4,7 +4,6 @@ import com.javamasterclass.mycontacts.datamodel.ContactData;
 import com.javamasterclass.mycontacts.datamodel.ContactItem;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -38,24 +37,27 @@ public class Controller {
     public void initialize() {
         contactsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         setContacts();
-        menuItems();
+        rightClickMenuItems();
     }
 
     public void setContacts() {
         contactsTableView.setItems(ContactData.getInstance().getContacts());
     }
 
-    public void menuItems() {
+    public void rightClickMenuItems() {
         listContextMenu = new ContextMenu();
-        MenuItem deleteMenuItem = new MenuItem("Delete");
-        deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                ContactItem item = contactsTableView.getSelectionModel().getSelectedItem();
-                deleteItem(item);
-            }
+
+        MenuItem editMenuItem = new MenuItem("Edit");
+        editMenuItem.setOnAction((ActionEvent event) -> {
+            editItem(contactsTableView.getSelectionModel().getSelectedItem());
         });
-        listContextMenu.getItems().addAll(deleteMenuItem);
+
+        MenuItem deleteMenuItem = new MenuItem("Delete");
+        deleteMenuItem.setOnAction((ActionEvent event) -> {
+            deleteItem(contactsTableView.getSelectionModel().getSelectedItem());
+        });
+
+        listContextMenu.getItems().addAll(editMenuItem, deleteMenuItem);
         contactsTableView.setContextMenu(listContextMenu);
     }
 
@@ -63,7 +65,7 @@ public class Controller {
     public void deleteItem(ContactItem item) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Contact Item");
-        alert.setHeaderText("Delete item: " + item.getFirstName() + " " + item.getLastName());
+        alert.setHeaderText("Delete item: " + item.getFirstName() + " " + item.getLastName() + "?");
         alert.setContentText("Are you sure? Press OK to confirm, or cancel");
         Optional<ButtonType> result = alert.showAndWait();
 
@@ -73,11 +75,23 @@ public class Controller {
     }
 
     @FXML
-    public void showNewItemDialog(ActionEvent actionEvent) {
+    public void editItem(ContactItem item) {
+        showItemDialog("VIEW");
+    }
+
+    @FXML
+    public void showItemDialog(String newEditView) {
+        newEditView = newEditView.toUpperCase();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.initOwner(mainBorderPane.getScene().getWindow());
-        dialog.setTitle("Add New Contact");
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("contactItemDialog.fxml"));
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                switch(newEditView.toUpperCase()) {
+                    case "NEW" -> "newContactItemDialog.fxml";
+                    case "EDIT" -> "editContactItemDialog.fxml";
+                    case "VIEW" -> "contactItemDialog.fxml";
+                    default ->  throw new IllegalArgumentException("Invalid dialog type: " + newEditView);
+                }));
 
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
@@ -89,17 +103,31 @@ public class Controller {
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+        DialogController controller = fxmlLoader.getController();
 
-        Optional<ButtonType> result = dialog.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            DialogController controller = fxmlLoader.getController();
-            ContactItem newItem = controller.processResults();
-            contactsTableView.getSelectionModel().select(newItem);
+
+        switch (newEditView) {
+            case "NEW" -> {
+                dialog.setTitle("Add New Contact");
+                Optional<ButtonType> result = dialog.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    ContactItem newItem = controller.processResults();
+                    contactsTableView.getSelectionModel().select(newItem);
+                }
+            }
+            case "EDIT" -> {
+                dialog.setTitle("Edit Contact");
+            }
+            default -> {
+                dialog.setTitle("Contact");
+                controller.setItemDetails(contactsTableView.getSelectionModel().getSelectedItem());
+                dialog.showAndWait();
+            }
         }
     }
 
     @FXML
-    public void handleKeyPressed(KeyEvent keyEvent) {
+    public void handleDelKeyPressed(KeyEvent keyEvent) {
         ContactItem selectedItem = contactsTableView.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             if (keyEvent.getCode().equals(KeyCode.DELETE)) {
@@ -113,4 +141,15 @@ public class Controller {
     }
 
 
+    public void showNewItemDialog() {
+        showItemDialog("NEW");
+    }
+
+    public void showEditItemDialog() {
+        showItemDialog("EDIT");
+    }
+
+    public void showItemDialog() {
+        showItemDialog("VIEW");
+    }
 }

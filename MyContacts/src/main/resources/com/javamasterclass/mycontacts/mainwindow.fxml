@@ -23,7 +23,7 @@
         </VBox>
     </top>
     <center>
-        <TableView fx:id="contactsTableView" onKeyPressed="#handleKeyPressed">
+        <TableView fx:id="contactsTableView" onKeyPressed="#handleDelKeyPressed">
             <columns>
                 <TableColumn fx:id="firstNameColumn" text="First Name">
                         <cellValueFactory>
