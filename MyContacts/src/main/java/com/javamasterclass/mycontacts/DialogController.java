@@ -27,7 +27,7 @@ public class DialogController {
     @FXML
     private Label notes;
 
-    public ContactItem processResults() {
+    public ContactItem processNewItem() {
         String firstName = firstNameField.getText().trim();
         String secondName = lastNameField.getText().trim();
         String phoneNumber = phoneNumberField.getText().trim();
@@ -38,10 +38,26 @@ public class DialogController {
         return newItem;
     }
 
-    public void setItemDetails(ContactItem item) {
+    public void viewItemDetails(ContactItem item) {
         firstName.setText(item.getFirstName());
         lastName.setText(item.getLastName());
         phoneNumber.setText(item.getPhoneNumber());
         notes.setText(item.getNotes());
+    }
+
+    public void editItemDetails(ContactItem item) {
+        firstNameField.setText(item.getFirstName());
+        lastNameField.setText(item.getLastName());
+        phoneNumberField.setText(item.getPhoneNumber());
+        notesAreaField.setText(item.getNotes());
+    }
+
+    public void processEditItem(ContactItem item) {
+        String firstName = firstNameField.getText().trim();
+        String lastName = lastNameField.getText().trim();
+        String phoneNumber = phoneNumberField.getText().trim();
+        String notes = notesAreaField.getText().trim();
+
+        ContactData.getInstance().editContact(item, firstName, lastName, phoneNumber, notes);
     }
 }

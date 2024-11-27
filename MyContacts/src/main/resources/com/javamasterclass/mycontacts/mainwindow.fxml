@@ -15,6 +15,9 @@
                 <Menu text="Contacts">
                     <items>
                         <MenuItem text="New Contact.." onAction="#showNewItemDialog"/>
+                        <MenuItem text="View Contact" onAction="#showItemDialog"/>
+                        <MenuItem text="Edit Contact" onAction="#showEditItemDialog"/>
+                        <MenuItem text="Delete Contact" onAction="#showDeleteItemDialog"/>
                         <SeparatorMenuItem/>
                         <MenuItem text="Exit" onAction="#handleExit"/>
                     </items>

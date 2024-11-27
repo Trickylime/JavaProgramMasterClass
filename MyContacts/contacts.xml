@@ -13,10 +13,22 @@
 	<notes>Luckiest guy alive</notes>
 </contact>
 <contact>
+	<first_name>Jackie</first_name>
+	<last_name>Chan</last_name>
+	<phone_number>555-555</phone_number>
+	<notes>JACKIEEEEEEEEEE</notes>
+</contact>
+<contact>
 	<first_name>John</first_name>
 	<last_name>Jackson</last_name>
 	<phone_number>01903 123456</phone_number>
 	<notes>This is a really cool guy</notes>
+</contact>
+<contact>
+	<first_name>John</first_name>
+	<last_name>Smith</last_name>
+	<phone_number>Yes</phone_number>
+	<notes>Yes</notes>
 </contact>
 <contact>
 	<first_name>Marge</first_name>
@@ -29,17 +41,5 @@
 	<last_name>Szyslak</last_name>
 	<phone_number>(800) 555-0000</phone_number>
 	<notes>Prank Calls Only</notes>
-</contact>
-<contact>
-	<first_name>John</first_name>
-	<last_name>Smith</last_name>
-	<phone_number>Yes</phone_number>
-	<notes>Yes</notes>
-</contact>
-<contact>
-	<first_name>Jackie</first_name>
-	<last_name>Chan</last_name>
-	<phone_number>555-555</phone_number>
-	<notes>JACKIEEEEEEEEEE</notes>
 </contact>
 </contacts>

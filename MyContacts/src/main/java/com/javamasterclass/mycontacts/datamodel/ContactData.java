@@ -49,6 +49,13 @@ public class ContactData {
         contacts.remove(contact);
     }
 
+    public void editContact(ContactItem contact, String firstName, String lastName, String phoneNumber, String notes) {
+        contact.setFirstName(firstName);
+        contact.setLastName(lastName);
+        contact.setPhoneNumber(phoneNumber);
+        contact.setNotes(notes);
+    }
+
     public void loadContacts() {
 
         try {

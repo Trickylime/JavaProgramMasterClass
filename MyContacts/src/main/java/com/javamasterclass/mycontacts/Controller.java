@@ -37,6 +37,7 @@ public class Controller {
     public void initialize() {
         contactsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         setContacts();
+        contactsTableView.getSelectionModel().selectFirst();
         rightClickMenuItems();
     }
 
@@ -76,7 +77,7 @@ public class Controller {
 
     @FXML
     public void editItem(ContactItem item) {
-        showItemDialog("VIEW");
+        showItemDialog("EDIT");
     }
 
     @FXML
@@ -87,8 +88,7 @@ public class Controller {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 switch(newEditView.toUpperCase()) {
-                    case "NEW" -> "newContactItemDialog.fxml";
-                    case "EDIT" -> "editContactItemDialog.fxml";
+                    case "NEW", "EDIT" -> "newContactItemDialog.fxml";
                     case "VIEW" -> "contactItemDialog.fxml";
                     default ->  throw new IllegalArgumentException("Invalid dialog type: " + newEditView);
                 }));
@@ -103,24 +103,33 @@ public class Controller {
 
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
         DialogController controller = fxmlLoader.getController();
-
-
+        
         switch (newEditView) {
             case "NEW" -> {
                 dialog.setTitle("Add New Contact");
                 Optional<ButtonType> result = dialog.showAndWait();
+
                 if (result.isPresent() && result.get() == ButtonType.OK) {
-                    ContactItem newItem = controller.processResults();
+                    ContactItem newItem = controller.processNewItem();
                     contactsTableView.getSelectionModel().select(newItem);
                 }
             }
             case "EDIT" -> {
                 dialog.setTitle("Edit Contact");
+                ContactItem item = contactsTableView.getSelectionModel().getSelectedItem();
+                controller.editItemDetails(item);
+                Optional<ButtonType> result = dialog.showAndWait();
+
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    controller.processEditItem(item);
+                    contactsTableView.refresh();
+                }
             }
             default -> {
                 dialog.setTitle("Contact");
-                controller.setItemDetails(contactsTableView.getSelectionModel().getSelectedItem());
+                controller.viewItemDetails(contactsTableView.getSelectionModel().getSelectedItem());
                 dialog.showAndWait();
             }
         }
@@ -151,5 +160,9 @@ public class Controller {
 
     public void showItemDialog() {
         showItemDialog("VIEW");
+    }
+
+    public void showDeleteItemDialog() {
+        deleteItem(contactsTableView.getSelectionModel().getSelectedItem());
     }
 }
