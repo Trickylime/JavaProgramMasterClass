@@ -20,20 +20,7 @@ public class Controller {
     @FXML
     public BorderPane mainBorderPane;
     @FXML
-    private TableView<ContactItem> tableView;
-    @FXML
-    private TableColumn<ContactItem, String> firstNameColumn;
-    @FXML
-    private TableColumn<ContactItem, String> lastNameColumn;
-    @FXML
-    private TableColumn<ContactItem, String> phoneNumberColumn;
-    @FXML
-    private TableColumn<ContactItem, String> notesColumn;
-
-    @FXML
     private TableView<ContactItem> contactsTableView;
-    @FXML
-    private ContextMenu listContextMenu;
 
     @FXML
     public void initialize() {
@@ -46,11 +33,11 @@ public class Controller {
     }
 
     public void handRightClickMenuItems() {
-        listContextMenu = new ContextMenu();
+        ContextMenu listContextMenu = new ContextMenu();
 
         MenuItem editMenuItem = new MenuItem("Edit");
         editMenuItem.setOnAction((ActionEvent event) -> {
-            editItem(contactsTableView.getSelectionModel().getSelectedItem());
+            showEditItemDialog();
         });
 
         MenuItem deleteMenuItem = new MenuItem("Delete");
@@ -72,6 +59,16 @@ public class Controller {
     }
 
     @FXML
+    public void handleDelKeyPressed(KeyEvent keyEvent) {
+        ContactItem selectedItem = contactsTableView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            if (keyEvent.getCode().equals(KeyCode.DELETE)) {
+                deleteItem(selectedItem);
+            }
+        }
+    }
+
+    @FXML
     public void deleteItem(ContactItem item) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Contact Item");
@@ -83,12 +80,6 @@ public class Controller {
             ContactData.getInstance().deleteContact(item);
         }
     }
-
-    @FXML
-    public void editItem(ContactItem item) {
-        showEditItemDialog();
-    }
-
 
     @FXML
     public void itemDialog(String newEditView) {
@@ -144,7 +135,7 @@ public class Controller {
                 dialog.setTitle("Contact");
 
                 controller.viewItemDetails(item);
-                
+
                 ButtonType editButtonType = new ButtonType("EDIT");
                 ButtonType deleteButtonType = new ButtonType("DELETE");
                 dialog.getDialogPane().getButtonTypes().addAll(editButtonType, deleteButtonType);
@@ -160,19 +151,9 @@ public class Controller {
     }
 
     @FXML
-    public void handleDelKeyPressed(KeyEvent keyEvent) {
-        ContactItem selectedItem = contactsTableView.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            if (keyEvent.getCode().equals(KeyCode.DELETE)) {
-                deleteItem(selectedItem);
-            }
-        }
-    }
-    @FXML
     public void handleExit(ActionEvent actionEvent) {
         Platform.exit();
     }
-
 
     public void showNewItemDialog() {
         itemDialog("NEW");
