@@ -3,9 +3,6 @@
 <DialogPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.javamasterclass.mycontacts.DialogController">
 
-    <headerText>
-        Enter your new contacts details:
-    </headerText>
     <content>
         <GridPane vgap="10" hgap="10">
             <Label text="First Name:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>

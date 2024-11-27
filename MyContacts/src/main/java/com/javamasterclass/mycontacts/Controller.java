@@ -9,6 +9,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -36,16 +38,14 @@ public class Controller {
     @FXML
     public void initialize() {
         contactsTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        setContacts();
-        contactsTableView.getSelectionModel().selectFirst();
-        rightClickMenuItems();
-    }
-
-    public void setContacts() {
         contactsTableView.setItems(ContactData.getInstance().getContacts());
+        contactsTableView.getSelectionModel().selectFirst();
+
+        handRightClickMenuItems();
+        handleDoubleClickItems();
     }
 
-    public void rightClickMenuItems() {
+    public void handRightClickMenuItems() {
         listContextMenu = new ContextMenu();
 
         MenuItem editMenuItem = new MenuItem("Edit");
@@ -63,6 +63,15 @@ public class Controller {
     }
 
     @FXML
+    public void handleDoubleClickItems() {
+        contactsTableView.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2){
+                showItemDialog();
+            }
+        });
+    }
+
+    @FXML
     public void deleteItem(ContactItem item) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Contact Item");
@@ -77,11 +86,12 @@ public class Controller {
 
     @FXML
     public void editItem(ContactItem item) {
-        showItemDialog("EDIT");
+        showEditItemDialog();
     }
 
+
     @FXML
-    public void showItemDialog(String newEditView) {
+    public void itemDialog(String newEditView) {
         newEditView = newEditView.toUpperCase();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.initOwner(mainBorderPane.getScene().getWindow());
@@ -105,10 +115,12 @@ public class Controller {
         dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
         DialogController controller = fxmlLoader.getController();
+        ContactItem item = contactsTableView.getSelectionModel().getSelectedItem();
         
         switch (newEditView) {
             case "NEW" -> {
                 dialog.setTitle("Add New Contact");
+                dialog.setHeaderText("Enter your new contact details:");
                 Optional<ButtonType> result = dialog.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -118,8 +130,9 @@ public class Controller {
             }
             case "EDIT" -> {
                 dialog.setTitle("Edit Contact");
-                ContactItem item = contactsTableView.getSelectionModel().getSelectedItem();
+                dialog.setHeaderText("Edit your contact details:");
                 controller.editItemDetails(item);
+
                 Optional<ButtonType> result = dialog.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -129,8 +142,19 @@ public class Controller {
             }
             default -> {
                 dialog.setTitle("Contact");
-                controller.viewItemDetails(contactsTableView.getSelectionModel().getSelectedItem());
-                dialog.showAndWait();
+
+                controller.viewItemDetails(item);
+                
+                ButtonType editButtonType = new ButtonType("EDIT");
+                ButtonType deleteButtonType = new ButtonType("DELETE");
+                dialog.getDialogPane().getButtonTypes().addAll(editButtonType, deleteButtonType);
+
+                Optional<ButtonType> result = dialog.showAndWait();
+                if (result.isPresent() && result.get() == editButtonType) {
+                    showEditItemDialog();
+                } else if (result.isPresent() && result.get() == deleteButtonType) {
+                    deleteItem(item);
+                }
             }
         }
     }
@@ -151,15 +175,15 @@ public class Controller {
 
 
     public void showNewItemDialog() {
-        showItemDialog("NEW");
+        itemDialog("NEW");
     }
 
     public void showEditItemDialog() {
-        showItemDialog("EDIT");
+        itemDialog("EDIT");
     }
 
     public void showItemDialog() {
-        showItemDialog("VIEW");
+        itemDialog("VIEW");
     }
 
     public void showDeleteItemDialog() {
