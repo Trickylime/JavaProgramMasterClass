@@ -28,22 +28,22 @@
     <center>
         <TableView fx:id="contactsTableView" onKeyPressed="#handleDelKeyPressed">
             <columns>
-                <TableColumn fx:id="firstNameColumn" text="First Name">
+                <TableColumn text="First Name">
                         <cellValueFactory>
                             <PropertyValueFactory property="firstName" />
                         </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="lastNameColumn" text="Last Name" >
+                <TableColumn text="Last Name" >
                     <cellValueFactory>
                         <PropertyValueFactory property="lastName" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="phoneNumberColumn" text="Phone Number" >
+                <TableColumn text="Phone Number" >
                     <cellValueFactory>
                         <PropertyValueFactory property="phoneNumber" />
                     </cellValueFactory>
                 </TableColumn>
-                <TableColumn fx:id="notesColumn" text="Notes" >
+                <TableColumn text="Notes" >
                     <cellValueFactory>
                         <PropertyValueFactory property="notes" />
                     </cellValueFactory>
